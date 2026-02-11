@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import brideGroomImg from "@/assets/bride-groom.jpg";
+import baghiImg from "@/assets/baghi-scene.png";
 import {
   FloatingPetals,
   FloatingMarigolds,
@@ -222,42 +223,100 @@ const Index = () => {
         </section>
 
         {/* ===== BAGHI ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-section-gradient overflow-hidden">
-          <IslamicPattern className="w-[400px] h-[400px] top-10 left-10" />
-          <FloatingLanterns count={4} />
-          <GlowingLights count={12} />
+        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex flex-col items-center justify-center overflow-hidden"
+          style={{ background: "linear-gradient(180deg, hsl(30 40% 12%) 0%, hsl(20 50% 8%) 50%, hsl(30 35% 15%) 100%)" }}
+        >
+          {/* Warm festive road/ground */}
+          <div className="absolute bottom-0 left-0 right-0 h-[30%]"
+            style={{ background: "linear-gradient(0deg, hsl(35 30% 18%) 0%, hsl(30 25% 14%) 60%, transparent 100%)" }}
+          />
+          <div className="absolute bottom-[28%] left-0 right-0 h-px bg-gold/20" />
 
-          <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
+          {/* Stars/lights in sky */}
+          <GlowingLights count={25} />
+
+          {/* Interactive draggable objects */}
+          <DraggableHearts count={4} />
+
+          {/* Draggable marigold garlands */}
+          {[
+            { emoji: "🌺", x: 12, y: 15, size: 28 },
+            { emoji: "🪔", x: 80, y: 20, size: 30 },
+            { emoji: "🎶", x: 25, y: 70, size: 24 },
+            { emoji: "🌸", x: 70, y: 65, size: 26 },
+            { emoji: "🏮", x: 50, y: 12, size: 32 },
+            { emoji: "✨", x: 90, y: 40, size: 22 },
+            { emoji: "🎵", x: 8, y: 50, size: 24 },
+          ].map((item, i) => (
             <motion.div
-              className="text-7xl mb-6"
+              key={`drag-${i}`}
+              className="absolute z-20 cursor-grab active:cursor-grabbing select-none"
+              style={{ left: `${item.x}%`, top: `${item.y}%`, fontSize: item.size }}
+              drag
+              dragMomentum={false}
+              whileHover={{ scale: 1.4, rotate: 15 }}
+              whileTap={{ scale: 0.9 }}
               animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ y: { duration: 2 + i * 0.3, repeat: Infinity, ease: "easeInOut" as const } }}
             >
-              🐴
+              {item.emoji}
             </motion.div>
-            <h2 className="font-display text-4xl sm:text-5xl text-gold-gradient glow-gold mb-2">The Baghi</h2>
-            <OrnamentDivider />
+          ))}
 
-            <div className="border-ornate rounded-2xl p-6 sm:p-8 mt-4">
-              <p className="text-foreground font-body text-base leading-relaxed mb-4">
-                The groom arrives in style on the traditional Baghi — a beautifully decorated horse cart,
-                a symbol of joy and celebration in our wedding traditions.
-              </p>
-              <motion.div
-                className="flex justify-center items-end gap-1 text-3xl my-6"
-                animate={{ x: [-20, 20, -20] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <span>🎵</span>
-                <motion.span animate={{ y: [0, -8, 0] }} transition={{ duration: 0.6, repeat: Infinity }}>🐴</motion.span>
-                <span>🎶</span>
-                <span className="text-2xl">🛒</span>
-              </motion.div>
-              <p className="text-gold/50 text-sm font-body italic">
-                Dedicated for Lovable ❤️
-              </p>
-            </div>
+          {/* Title */}
+          <motion.div className="relative z-30 text-center mb-4" {...sectionAnim}>
+            <h2 className="font-display text-4xl sm:text-5xl text-gold-gradient glow-gold mb-1">The Baghi</h2>
+            <OrnamentDivider />
+            <p className="text-cream/60 font-body text-sm max-w-xs mx-auto">
+              The groom & bride arrive in royal style on the beautifully decorated Baghi
+            </p>
           </motion.div>
+
+          {/* Animated Baghi moving left to right */}
+          <motion.div
+            className="relative z-30 w-[320px] sm:w-[450px] md:w-[550px]"
+            animate={{ x: ["-110%", "110vw"] }}
+            transition={{ duration: 14, repeat: Infinity, ease: "linear" as const, repeatDelay: 2 }}
+          >
+            {/* Dust trail */}
+            <motion.div
+              className="absolute -bottom-2 -left-8 w-20 h-6 rounded-full opacity-30"
+              style={{ background: "radial-gradient(ellipse, hsl(35 30% 50% / 0.4), transparent)" }}
+              animate={{ opacity: [0.1, 0.4, 0.1], scaleX: [0.8, 1.3, 0.8] }}
+              transition={{ duration: 1, repeat: Infinity }}
+            />
+            <img
+              src={baghiImg}
+              alt="Wedding Baghi - Decorated horse cart with bride and groom"
+              className="w-full h-auto drop-shadow-2xl"
+              style={{ filter: "drop-shadow(0 10px 30px hsl(43 72% 52% / 0.3))" }}
+            />
+            {/* Glow under baghi */}
+            <div className="absolute -bottom-4 left-[10%] right-[10%] h-8 rounded-full"
+              style={{ background: "radial-gradient(ellipse, hsl(43 72% 52% / 0.15), transparent)" }}
+            />
+          </motion.div>
+
+          {/* Road decorations */}
+          <div className="absolute bottom-[18%] left-0 right-0 flex justify-around pointer-events-none z-10 opacity-50">
+            {Array.from({ length: 8 }, (_, i) => (
+              <motion.span
+                key={i}
+                className="text-lg"
+                animate={{ opacity: [0.3, 0.8, 0.3] }}
+                transition={{ duration: 2, delay: i * 0.3, repeat: Infinity }}
+              >
+                🪔
+              </motion.span>
+            ))}
+          </div>
+
+          <motion.p
+            className="relative z-30 text-gold/40 text-sm font-body italic mt-6"
+            {...sectionAnim}
+          >
+            Dedicated for Lovable ❤️
+          </motion.p>
         </section>
 
         {/* ===== CLOSING ===== */}
