@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import brideGroomImg from "@/assets/bride-groom.jpg";
-import baghiImg from "@/assets/baghi-scene.png";
+import { motion } from "framer-motion";
+import { Download, Phone, Car } from "lucide-react";
+import cartoonCoupleImg from "@/assets/cartoon-couple.png";
 import {
   FloatingPetals,
   FloatingMarigolds,
@@ -13,8 +13,9 @@ import {
 } from "@/components/wedding/FloatingElements";
 import { IslamicPattern, OrnamentDivider, FloralArch } from "@/components/wedding/IslamicPattern";
 import { SwipeIndicator, SwipeHint } from "@/components/wedding/SwipeIndicator";
+import BaghiAnimation from "@/components/wedding/BaghiAnimation";
 
-const sectionLabels = ["Intro", "Mehndi", "Barat", "Walima", "Baghi", "Closing"];
+const sectionLabels = ["Intro", "Mehndi", "Barat", "Walima"];
 
 const Index = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,6 +39,10 @@ const Index = () => {
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleDownload = () => {
+    window.print();
+  };
+
   const sectionAnim = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
@@ -47,6 +52,17 @@ const Index = () => {
 
   return (
     <div className="h-screen w-screen overflow-hidden relative">
+      {/* Download button */}
+      <motion.button
+        onClick={handleDownload}
+        className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full border border-gold/30 bg-background/80 backdrop-blur-sm flex items-center justify-center text-gold/70 hover:text-gold hover:border-gold transition-colors"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        title="Download Card"
+      >
+        <Download size={18} />
+      </motion.button>
+
       <div
         ref={containerRef}
         className="scroll-snap-container flex h-full w-full"
@@ -79,7 +95,7 @@ const Index = () => {
                 transition={{ delay: 0.5, duration: 0.8 }}
               >
                 <img
-                  src={brideGroomImg}
+                  src={cartoonCoupleImg}
                   alt="Hafiz Awais Yasin & Miral Fatima"
                   className="w-full h-full object-cover rounded-full"
                 />
@@ -124,6 +140,8 @@ const Index = () => {
 
             <SwipeHint />
           </motion.div>
+
+          <BaghiAnimation />
         </section>
 
         {/* ===== MEHNDI ===== */}
@@ -157,6 +175,8 @@ const Index = () => {
               An evening of color, joy & celebration
             </motion.p>
           </motion.div>
+
+          <BaghiAnimation />
         </section>
 
         {/* ===== BARAT ===== */}
@@ -177,8 +197,11 @@ const Index = () => {
               <p className="text-gold/80 font-body text-lg mb-4">🎀 Sehra Bandi: 1:00 PM</p>
               <div className="h-px bg-gold/20 my-4" />
               <p className="text-gold/60 font-body text-sm uppercase tracking-widest mb-2">Departure</p>
-              <p className="text-foreground font-body text-sm leading-relaxed mb-4">
+              <p className="text-foreground font-body text-sm leading-relaxed mb-2">
                 House # 229B, Dargahi Shah, Kamalia
+              </p>
+              <p className="text-gold/80 font-body text-sm flex items-center justify-center gap-2">
+                <Car size={16} className="text-gold" /> Departure Time: 2:30 PM
               </p>
               <div className="h-px bg-gold/20 my-4" />
               <p className="text-gold/60 font-body text-sm uppercase tracking-widest mb-2">Venue</p>
@@ -187,9 +210,11 @@ const Index = () => {
               </p>
             </div>
           </motion.div>
+
+          <BaghiAnimation />
         </section>
 
-        {/* ===== WALIMA ===== */}
+        {/* ===== WALIMA + CLOSING ===== */}
         <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-walima-gradient overflow-hidden">
           <IslamicPattern className="w-[450px] h-[450px] top-0 right-0" />
           <FloatingPetals count={10} />
@@ -211,145 +236,29 @@ const Index = () => {
               </p>
             </div>
 
-            <motion.p
-              className="font-arabic text-gold/40 text-sm mt-6"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
-            </motion.p>
-          </motion.div>
-        </section>
-
-        {/* ===== BAGHI ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex flex-col items-center justify-center overflow-hidden"
-          style={{ background: "linear-gradient(180deg, hsl(30 40% 12%) 0%, hsl(20 50% 8%) 50%, hsl(30 35% 15%) 100%)" }}
-        >
-          {/* Warm festive road/ground */}
-          <div className="absolute bottom-0 left-0 right-0 h-[30%]"
-            style={{ background: "linear-gradient(0deg, hsl(35 30% 18%) 0%, hsl(30 25% 14%) 60%, transparent 100%)" }}
-          />
-          <div className="absolute bottom-[28%] left-0 right-0 h-px bg-gold/20" />
-
-          {/* Stars/lights in sky */}
-          <GlowingLights count={25} />
-
-          {/* Interactive draggable objects */}
-          <DraggableHearts count={4} />
-
-          {/* Draggable marigold garlands */}
-          {[
-            { emoji: "🌺", x: 12, y: 15, size: 28 },
-            { emoji: "🪔", x: 80, y: 20, size: 30 },
-            { emoji: "🎶", x: 25, y: 70, size: 24 },
-            { emoji: "🌸", x: 70, y: 65, size: 26 },
-            { emoji: "🏮", x: 50, y: 12, size: 32 },
-            { emoji: "✨", x: 90, y: 40, size: 22 },
-            { emoji: "🎵", x: 8, y: 50, size: 24 },
-          ].map((item, i) => (
-            <motion.div
-              key={`drag-${i}`}
-              className="absolute z-20 cursor-grab active:cursor-grabbing select-none"
-              style={{ left: `${item.x}%`, top: `${item.y}%`, fontSize: item.size }}
-              drag
-              dragMomentum={false}
-              whileHover={{ scale: 1.4, rotate: 15 }}
-              whileTap={{ scale: 0.9 }}
-              animate={{ y: [0, -8, 0] }}
-              transition={{ y: { duration: 2 + i * 0.3, repeat: Infinity, ease: "easeInOut" as const } }}
-            >
-              {item.emoji}
-            </motion.div>
-          ))}
-
-          {/* Title */}
-          <motion.div className="relative z-30 text-center mb-4" {...sectionAnim}>
-            <h2 className="font-display text-4xl sm:text-5xl text-gold-gradient glow-gold mb-1">The Baghi</h2>
-            <OrnamentDivider />
-            <p className="text-cream/60 font-body text-sm max-w-xs mx-auto">
-              The groom & bride arrive in royal style on the beautifully decorated Baghi
-            </p>
-          </motion.div>
-
-          {/* Animated Baghi moving left to right */}
-          <motion.div
-            className="relative z-30 w-[320px] sm:w-[450px] md:w-[550px]"
-            animate={{ x: ["-110%", "110vw"] }}
-            transition={{ duration: 14, repeat: Infinity, ease: "linear" as const, repeatDelay: 2 }}
-          >
-            {/* Dust trail */}
-            <motion.div
-              className="absolute -bottom-2 -left-8 w-20 h-6 rounded-full opacity-30"
-              style={{ background: "radial-gradient(ellipse, hsl(35 30% 50% / 0.4), transparent)" }}
-              animate={{ opacity: [0.1, 0.4, 0.1], scaleX: [0.8, 1.3, 0.8] }}
-              transition={{ duration: 1, repeat: Infinity }}
-            />
-            <img
-              src={baghiImg}
-              alt="Wedding Baghi - Decorated horse cart with bride and groom"
-              className="w-full h-auto drop-shadow-2xl"
-              style={{ filter: "drop-shadow(0 10px 30px hsl(43 72% 52% / 0.3))" }}
-            />
-            {/* Glow under baghi */}
-            <div className="absolute -bottom-4 left-[10%] right-[10%] h-8 rounded-full"
-              style={{ background: "radial-gradient(ellipse, hsl(43 72% 52% / 0.15), transparent)" }}
-            />
-          </motion.div>
-
-          {/* Road decorations */}
-          <div className="absolute bottom-[18%] left-0 right-0 flex justify-around pointer-events-none z-10 opacity-50">
-            {Array.from({ length: 8 }, (_, i) => (
-              <motion.span
-                key={i}
-                className="text-lg"
-                animate={{ opacity: [0.3, 0.8, 0.3] }}
-                transition={{ duration: 2, delay: i * 0.3, repeat: Infinity }}
-              >
-                🪔
-              </motion.span>
-            ))}
-          </div>
-
-          <motion.p
-            className="relative z-30 text-gold/40 text-sm font-body italic mt-6"
-            {...sectionAnim}
-          >
-            Dedicated for Lovable ❤️
-          </motion.p>
-        </section>
-
-        {/* ===== CLOSING ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-section-gradient overflow-hidden">
-          <IslamicPattern className="w-[500px] h-[500px] top-0 right-0" />
-          <FloatingPetals count={8} />
-          <GlowingLights count={20} />
-
-          <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
-            <span className="text-5xl mb-4 block">💌</span>
-            <h2 className="font-display text-3xl sm:text-4xl text-gold-gradient glow-gold mb-2 leading-tight">
-              Looking Forward to Celebrating with All Family Members
-            </h2>
-            <OrnamentDivider />
-
-            <div className="border-ornate rounded-2xl p-6 sm:p-8 mt-4">
-              <p className="text-gold/60 font-body text-sm uppercase tracking-widest mb-3">Contact</p>
-              <p className="text-foreground font-body text-lg mb-1">Hassan</p>
-              <p className="text-gold/80 font-body text-sm mb-1">(Younger Brother)</p>
-              <a
-                href="tel:03008007152"
-                className="text-gold font-display text-xl tracking-wider hover:underline"
-              >
-                0300-8007152
-              </a>
+            {/* Closing info */}
+            <div className="mt-6">
+              <p className="text-gold/60 font-body text-sm mb-3">
+                Looking forward to celebrating with all family members 💌
+              </p>
+              <div className="border-ornate rounded-xl p-4 inline-block">
+                <p className="text-gold/50 font-body text-xs uppercase tracking-widest mb-1">Contact</p>
+                <p className="text-foreground font-body text-sm mb-0.5">Hassan (Younger Brother)</p>
+                <a
+                  href="tel:03008007152"
+                  className="text-gold font-display text-lg tracking-wider hover:underline inline-flex items-center gap-2"
+                >
+                  <Phone size={16} /> 0300-8007152
+                </a>
+              </div>
             </div>
 
-            <div className="mt-8">
+            <div className="mt-4">
               <ConfettiExplosion />
             </div>
 
             <motion.p
-              className="font-arabic text-gold/40 text-sm mt-8"
+              className="font-arabic text-gold/40 text-sm mt-4"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -357,6 +266,8 @@ const Index = () => {
               جزاكم الله خيرا
             </motion.p>
           </motion.div>
+
+          <BaghiAnimation />
         </section>
       </div>
 
