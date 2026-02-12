@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -86,14 +86,14 @@
 }
 
 @layer components {
-  /* Extra padding for Safari nav bar + safe area (iPhone/Android) */
+  /* Extra padding for Safari nav bar + safe area (iPhone/Android) + mobile bottom bar */
   .pb-safe-bar {
-    padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(7.5rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
   }
 
-  /* Bottom bar: extra offset on mobile for Safari nav bar; normal on desktop */
+  /* Bottom bar: extra offset on mobile for Safari nav bar + system gesture area; normal on desktop */
   .bottom-bar-safe {
-    bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
   }
   @media (min-width: 768px) {
     .bottom-bar-safe {
@@ -104,8 +104,60 @@
     }
   }
 
+  /* When embedded in desktop phone frame: use compact spacing so content fits */
+  .desktop-iframe {
+    overflow: hidden;
+  }
+  .desktop-iframe .bottom-bar-safe {
+    bottom: 0.5rem;
+  }
+  .desktop-iframe .pb-safe-bar {
+    padding-bottom: 2.5rem;
+  }
+  /* Compact intro in mockup so content fits without overflow */
+  .desktop-iframe .intro-compact .font-arabic:first-of-type {
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+  .desktop-iframe .intro-compact [class*="font-body"].uppercase {
+    font-size: 0.6rem;
+    margin-bottom: 0.375rem;
+    letter-spacing: 0.08em;
+  }
+  .desktop-iframe .intro-compact .names h1 {
+    font-size: 1.35rem !important;
+    line-height: 1.15;
+  }
+  .desktop-iframe .intro-compact .names .italic {
+    font-size: 0.9rem !important;
+  }
+  .desktop-iframe .intro-compact .names {
+    gap: 0;
+  }
+  .desktop-iframe .intro-compact .flex.items-center.justify-center.gap-3 {
+    margin-top: 0.375rem;
+    margin-bottom: 0.375rem;
+  }
+  .desktop-iframe .intro-compact .font-arabic:last-of-type {
+    font-size: 0.6rem;
+    margin-top: 0;
+    max-width: 260px;
+    line-height: 1.4;
+  }
+  .desktop-iframe .intro-compact .absolute.bottom-20 {
+    display: none;
+  }
+  .desktop-iframe .intro-compact {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
   .font-arabic {
     font-family: 'Amiri', serif;
+  }
+
+  .font-title-card {
+    font-family: 'Cinzel', serif;
   }
 
   .text-gold-gradient {
@@ -185,7 +237,7 @@
     100% { background-position: -200% 0; }
   }
 
-  /* Animated gradient border for event cards */
+  /* Animated gradient border for event cards - slowed for performance */
   .card-animated-border {
     background: linear-gradient(
       90deg,
@@ -196,7 +248,7 @@
       hsl(43 72% 55%)
     );
     background-size: 300% 100%;
-    animation: borderFlow 4s ease-in-out infinite;
+    animation: borderFlow 8s ease-in-out infinite;
     box-shadow: 0 0 20px hsl(43 72% 52% / 0.2);
   }
 
@@ -205,7 +257,7 @@
     50% { background-position: 100% 50%; }
   }
 
-  /* Subtle shimmer overlay on card */
+  /* Subtle shimmer overlay on card - slowed for performance */
   .card-shimmer-overlay {
     position: absolute;
     inset: 0;
@@ -218,7 +270,7 @@
       transparent 65%
     );
     background-size: 250% 100%;
-    animation: cardShimmer 5s ease-in-out infinite;
+    animation: cardShimmer 8s ease-in-out infinite;
   }
 
   @keyframes cardShimmer {
@@ -296,6 +348,14 @@
     page-break-after: auto;
   }
   /* Pause animations for cleaner print */
+  .card-animated-border,
+  .card-shimmer-overlay {
+    animation: none !important;
+  }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
   .card-animated-border,
   .card-shimmer-overlay {
     animation: none !important;

@@ -28,7 +28,7 @@ export const DesktopShell = () => {
         />
       </div>
 
-      <div className="w-full max-w-7xl flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 relative z-10">
+      <div className="w-full max-w-[min(1600px,95vw)] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 xl:gap-16 relative z-10">
         {/* Left: Wedding invitation with animations */}
         <div className="flex-shrink-0 text-center lg:text-left order-2 lg:order-1 max-w-md relative">
           <div
@@ -45,7 +45,7 @@ export const DesktopShell = () => {
             بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
           </motion.p>
           <motion.p
-            className="font-body text-xs sm:text-sm mb-4 leading-relaxed tracking-[0.15em] uppercase text-amber-900/90"
+            className="font-body text-xs sm:text-sm mb-4 leading-relaxed tracking-[0.15em] uppercase font-semibold text-amber-900"
             {...fadeInUp(0.2)}
           >
             You are cordially invited to the wedding of
@@ -57,7 +57,7 @@ export const DesktopShell = () => {
             Hafiz Awais Yasin
           </motion.h2>
           <motion.p
-            className="text-neutral-600 text-lg sm:text-xl mt-1 italic"
+            className="text-amber-800 text-lg sm:text-xl mt-1 italic font-medium"
             {...fadeInUp(0.35)}
           >
             Weds
@@ -89,9 +89,12 @@ export const DesktopShell = () => {
           </motion.p>
         </div>
 
-        {/* Center: iPhone mockup */}
-        <div className="flex-shrink-0 order-1 lg:order-2 min-w-[320px] lg:min-w-[420px]">
-          <DesktopPhoneFrame src={iframeSrc} isDesktop />
+        {/* Center: iPhone mockup - fixed height 650px, width from aspect ratio */}
+        <div
+          className="flex-shrink-0 flex items-center justify-center order-1 lg:order-2 h-[790px] w-auto max-w-full max-h-[90vh]"
+          style={{ aspectRatio: "1424 / 2956" }}
+        >
+          <DesktopPhoneFrame src={iframeSrc} isDesktop className="w-full h-full object-contain" />
         </div>
 
         {/* Right: Contact with animations */}
@@ -103,8 +106,8 @@ export const DesktopShell = () => {
             }}
           />
           <motion.div className="text-center lg:text-left" {...fadeInUp(0.2)}>
-            <p className="text-gold/90 font-display text-lg font-semibold">Get in touch</p>
-            <p className="text-neutral-500 text-sm mt-1 max-w-[200px]">
+            <p className="text-amber-800 font-display text-lg font-semibold">Get in touch</p>
+            <p className="text-neutral-700 text-sm mt-1 max-w-[200px] font-medium">
               We'd love to hear from you. Call or message us for any queries.
             </p>
           </motion.div>
@@ -133,7 +136,7 @@ export const DesktopShell = () => {
             </motion.a>
           </motion.div>
           <motion.p
-            className="text-neutral-400 text-xs italic"
+            className="text-neutral-600 text-xs italic font-medium"
             {...fadeInUp(0.4)}
           >
             Swipe the invite to explore

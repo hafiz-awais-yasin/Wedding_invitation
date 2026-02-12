@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Phone, Car, MapPin } from "lucide-react";
+import { Phone, Car, MapPin, Calendar } from "lucide-react";
 import introBg from "@/assets/intro-background.png";
 import mehndiBg from "@/assets/mehndi-background.png";
 import baratBg from "@/assets/barat-background.png";
@@ -77,10 +77,10 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center md:items-center md:py-6 md:bg-neutral-950">
-      {/* Desktop: centered card (430px = ~iPhone width); Mobile: full width */}
+    <div className={`min-h-screen flex justify-center md:items-center md:py-6 md:bg-neutral-950 ${isDesktopIframe ? "desktop-iframe" : ""}`}>
+      {/* Desktop: fixed 450×700px card; Mobile: full width */}
       <div
-        className="w-full h-screen md:w-[430px] md:h-[90vh] md:max-h-[932px] md:rounded-[2.5rem] md:overflow-hidden md:shadow-2xl md:border md:border-white/10 relative"
+        className="w-full h-screen md:w-[450px] md:h-[700px] md:rounded-[2.5rem] md:overflow-hidden md:shadow-2xl md:border md:border-white/10 relative"
         style={{ transform: "translateZ(0)" }}
       >
       <div
@@ -101,18 +101,18 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
             }}
           />
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.15}>
-            <FireworksBackground count={8} light />
+            <FireworksBackground count={4} light />
           </ParallaxLayer>
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.06}>
-            <FloatingButterflies count={4} />
+            <FloatingButterflies count={3} />
           </ParallaxLayer>
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.04}>
-            <FloatingRoses count={12} />
+            <FloatingRoses count={6} />
           </ParallaxLayer>
 
           {/* All content centered in central white area */}
           <motion.div
-            className="relative z-30 flex-1 min-h-0 flex flex-col items-center justify-center px-5 sm:px-8 py-4 max-w-[440px] mx-auto overflow-y-auto overflow-x-hidden isolate"
+            className={`relative z-30 flex-1 min-h-0 flex flex-col items-center justify-center px-5 sm:px-8 py-4 max-w-[440px] mx-auto overflow-y-auto overflow-x-hidden isolate ${isDesktopIframe ? "intro-compact" : ""}`}
             {...sectionAnim}
           >
             {/* Top: Bismillah */}
@@ -128,7 +128,7 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
 
             {/* Invite text */}
             <motion.p
-              className="font-body text-sm sm:text-base mb-5 leading-relaxed tracking-[0.2em] uppercase text-center font-medium text-amber-800"
+              className="font-body text-sm sm:text-base mb-5 leading-relaxed tracking-[0.2em] uppercase text-center font-semibold text-amber-900"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
@@ -137,7 +137,7 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
             </motion.p>
 
             {/* Names - bold, prominent, with reveal animation */}
-            <div className="flex flex-col items-center gap-1 w-full flex-shrink-0">
+            <div className="names flex flex-col items-center gap-1 w-full flex-shrink-0">
               <motion.h1
                 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-center"
                 style={{
@@ -161,8 +161,7 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
                 Hafiz Awais Yasin
               </motion.h1>
               <motion.p
-                className="text-2xl sm:text-3xl font-display italic font-semibold"
-                style={{ color: "hsl(43 65% 40%)" }}
+                className="text-2xl sm:text-3xl font-display italic font-semibold text-amber-800"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1, duration: 0.6 }}
@@ -224,13 +223,13 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
             }}
           />
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.12}>
-            <FireworksBackground count={10} light />
+            <FireworksBackground count={4} light />
           </ParallaxLayer>
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.06}>
-            <FloatingButterflies count={8} />
+            <FloatingButterflies count={4} />
           </ParallaxLayer>
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.04}>
-            <FloatingYellowFlowers count={14} />
+            <FloatingYellowFlowers count={8} />
           </ParallaxLayer>
 
           {/* Card section */}
@@ -238,30 +237,33 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
             className="relative z-30 flex-1 min-h-0 flex flex-col items-center justify-center px-4 py-4 max-w-md mx-auto overflow-y-auto overflow-x-hidden"
             {...sectionAnim}
           >
-            <h2
-              className="font-display text-4xl sm:text-5xl mb-2 flex-shrink-0 font-bold tracking-wide"
-              style={{
-                background: "linear-gradient(135deg, hsl(45 95% 55%) 0%, hsl(30 75% 35%) 50%, hsl(38 80% 45%) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Mehndi
-            </h2>
+            {/* Title card - soft mint tone */}
+            <div className="w-full flex-shrink-0 mb-1 sm:mb-3 rounded-2xl p-[2px] card-animated-border">
+              <div
+                className="rounded-[14px] px-5 sm:px-6 py-2 sm:py-4 text-center"
+                style={{
+                  background: "linear-gradient(165deg, hsl(155 50% 92% / 0.2) 0%, hsl(145 40% 90% / 0.22) 50%, hsl(160 35% 88% / 0.2) 100%)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <h2 className="font-title-card text-4xl sm:text-5xl font-semibold tracking-[0.2em] uppercase text-emerald-900/90">
+                  Mehndi
+                </h2>
+              </div>
+            </div>
             <OrnamentDivider />
 
             {/* Event card - animated gradient border */}
-            <div className="w-full flex-shrink-0 mt-3 rounded-2xl p-[2px] card-animated-border">
+            <div className="w-full flex-shrink-0 mt-1 sm:mt-3 rounded-2xl p-[2px] card-animated-border">
               <div
-                className="rounded-[14px] p-5 sm:p-7 relative overflow-hidden text-left"
+                className="rounded-[14px] p-4 sm:p-7 relative overflow-hidden text-left"
                 style={{
                   background: "linear-gradient(165deg, hsl(55 50% 97%) 0%, hsl(45 45% 93%) 25%, hsl(40 40% 90%) 50%, hsl(38 35% 88%) 75%, hsl(35 30% 85%) 100%)",
                 }}
               >
                 <div className="card-shimmer-overlay" aria-hidden />
                 <div className="flex items-center gap-2 mb-2">
-                <span className="text-2xl sm:text-3xl flex-shrink-0">📅</span>
+                <Calendar size={22} className="flex-shrink-0 text-amber-700" />
                 <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">
                   April 2, 2026 — Thursday
                 </p>
@@ -315,50 +317,55 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
           />
           {/* Fireworks */}
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.08}>
-            <FireworksBackground count={6} light />
+            <FireworksBackground count={3} light />
           </ParallaxLayer>
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.04}>
-            <FloatingPinkFlowers count={14} />
+            <FloatingPinkFlowers count={8} />
           </ParallaxLayer>
 
           {/* Card section */}
           <motion.div
-            className="relative z-20 flex-1 flex flex-col items-center justify-start px-4 py-3 pt-1 max-w-md mx-auto min-h-0"
+            className="relative z-20 flex-1 flex flex-col items-center justify-start px-4 py-2 sm:py-3 pt-1 max-w-md mx-auto min-h-0"
             {...sectionAnim}
           >
-            <motion.h2
-              className="font-display text-4xl sm:text-5xl mb-2 flex-shrink-0 font-bold tracking-wide"
-              style={{
-                background: "linear-gradient(135deg, hsl(45 95% 55%) 0%, hsl(30 75% 35%) 50%, hsl(38 80% 45%) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
+            {/* Title card - soft rose tone */}
+            <motion.div
+              className="w-full flex-shrink-0 mb-1 sm:mb-3 rounded-2xl p-[2px] card-animated-border"
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               viewport={{ once: true }}
             >
-              Barat
-            </motion.h2>
+              <div
+                className="rounded-[14px] px-5 sm:px-6 py-2 sm:py-4 text-center"
+                style={{
+                  background: "linear-gradient(165deg, hsl(350 55% 94% / 0.2) 0%, hsl(345 50% 92% / 0.22) 50%, hsl(340 45% 90% / 0.2) 100%)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <h2 className="font-title-card text-4xl sm:text-5xl font-semibold tracking-[0.2em] uppercase text-rose-900/90">
+                  Barat
+                </h2>
+              </div>
+            </motion.div>
             <OrnamentDivider />
 
             <motion.div
-              className="w-full flex-shrink-0 mt-3 rounded-2xl p-[2px] card-animated-border"
+              className="w-full flex-shrink-0 mt-1 sm:mt-3 rounded-2xl p-[2px] card-animated-border"
               initial={{ opacity: 0, y: 24, scale: 0.96 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
               viewport={{ once: true }}
             >
               <div
-                className="rounded-[14px] p-5 sm:p-7 relative overflow-hidden text-left"
+                className="rounded-[14px] p-4 sm:p-7 relative overflow-hidden text-left"
                 style={{
                   background: "linear-gradient(165deg, hsl(55 50% 97%) 0%, hsl(45 45% 93%) 25%, hsl(40 40% 90%) 50%, hsl(38 35% 88%) 75%, hsl(35 30% 85%) 100%)",
                 }}
               >
                 <div className="card-shimmer-overlay" aria-hidden />
                 <div className="flex items-center gap-2 mb-2">
-                <span className="text-2xl sm:text-3xl flex-shrink-0">📅</span>
+                <Calendar size={22} className="flex-shrink-0 text-amber-700" />
                 <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">
                   April 3, 2026 — Friday
                 </p>
@@ -402,8 +409,8 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
             </motion.div>
           </motion.div>
 
-          {/* Baghi area - blends with gradient above, fireworks on top of image */}
-          <div className="relative h-[170px] sm:h-[190px] flex-shrink-0 z-10 min-h-0 overflow-hidden">
+          {/* Baghi area - more height on mobile so fully visible */}
+          <div className="relative h-[220px] sm:h-[200px] flex-shrink-0 z-10 min-h-0 overflow-hidden">
             <BaghiAnimation />
           </div>
         </section>
@@ -422,44 +429,47 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
             }}
           />
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.12}>
-            <FireworksBackground count={6} light />
+            <FireworksBackground count={3} light />
           </ParallaxLayer>
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.06}>
-            <FloatingButterflies count={14} />
+            <FloatingButterflies count={5} />
           </ParallaxLayer>
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.04}>
-            <FloatingRedFlowers count={14} />
+            <FloatingRedFlowers count={8} />
           </ParallaxLayer>
 
-          <motion.div className="relative z-20 flex-1 min-h-0 flex flex-col items-center justify-start px-6 py-3 pt-1 max-w-md mx-auto overflow-y-auto overflow-x-hidden" {...sectionAnim}>
-            <h2
-              className="font-display text-4xl sm:text-5xl mb-2 flex-shrink-0 font-bold tracking-wide"
-              style={{
-                background: "linear-gradient(135deg, hsl(45 95% 55%) 0%, hsl(30 75% 35%) 50%, hsl(38 80% 45%) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Walima
-            </h2>
+          <motion.div className={`relative z-20 flex-1 min-h-0 flex flex-col items-center justify-start px-4 sm:px-6 py-2 sm:py-3 pt-1 max-w-md mx-auto ${isDesktopIframe ? "pb-16" : "pb-48 md:pb-12"}`} {...sectionAnim}>
+            {/* Title card - soft gold/amber tone */}
+            <div className="w-full flex-shrink-0 mb-1 sm:mb-3 rounded-2xl p-[2px] card-animated-border">
+              <div
+                className="rounded-[14px] px-5 sm:px-6 py-2 sm:py-4 text-center"
+                style={{
+                  background: "linear-gradient(165deg, hsl(45 65% 94% / 0.2) 0%, hsl(38 55% 92% / 0.22) 50%, hsl(35 50% 90% / 0.2) 100%)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <h2 className="font-title-card text-4xl sm:text-5xl font-semibold tracking-[0.2em] uppercase text-amber-800/95">
+                  Walima
+                </h2>
+              </div>
+            </div>
             <OrnamentDivider />
 
-            <div className="rounded-2xl p-[2px] mt-4 w-full card-animated-border flex-shrink-0">
+            <div className="rounded-2xl p-[2px] mt-1 sm:mt-4 w-full card-animated-border flex-shrink-0">
               <div
-                className="rounded-[14px] p-6 sm:p-8 relative overflow-hidden text-left"
+                className="rounded-[14px] p-4 sm:p-8 relative overflow-hidden text-left"
                 style={{
                   background: "linear-gradient(165deg, hsl(55 50% 97%) 0%, hsl(45 45% 93%) 25%, hsl(40 40% 90%) 50%, hsl(38 35% 88%) 75%, hsl(35 30% 85%) 100%)",
                 }}
               >
                 <div className="card-shimmer-overlay" aria-hidden />
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-2xl sm:text-3xl flex-shrink-0">📅</span>
+                  <Calendar size={22} className="flex-shrink-0 text-amber-700" />
                   <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">April 4, 2026 — Saturday</p>
                 </div>
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-2xl sm:text-3xl flex-shrink-0">🕕</span>
-                  <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">6:00 PM</p>
+                  <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">6:30 PM</p>
                 </div>
                 <div className="h-px my-4" style={{ background: "linear-gradient(90deg, transparent, hsl(43 60% 65% / 0.7), transparent)" }} />
                 <p className="text-amber-800 font-body text-xs uppercase tracking-[0.2em] mb-2 font-semibold">Venue</p>
@@ -497,8 +507,8 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
             </motion.p>
           </motion.div>
 
-          {/* Wedding car area - same animation style as Baghi */}
-          <div className="relative h-[170px] sm:h-[190px] flex-shrink-0 z-10 min-h-0 overflow-hidden">
+          {/* Wedding car area - more height on mobile for full visibility */}
+          <div className="relative h-[220px] sm:h-[200px] flex-shrink-0 z-10 min-h-0 overflow-hidden">
             <WeddingCarAnimation />
           </div>
         </section>
@@ -509,7 +519,7 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
         className="no-print fixed left-0 right-0 pointer-events-none z-40"
         style={{
           bottom: 0,
-          height: "calc(10rem + env(safe-area-inset-bottom, 0px))",
+          height: isDesktopIframe ? "5rem" : "calc(10rem + env(safe-area-inset-bottom, 0px))",
           background: "linear-gradient(180deg, transparent 0%, hsl(30 20% 8% / 0.4) 40%, hsl(30 25% 6% / 0.7) 100%)",
         }}
       />

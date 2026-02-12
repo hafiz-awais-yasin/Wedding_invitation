@@ -37,9 +37,9 @@ export const IslamicPattern = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
-export const OrnamentDivider = () => (
+export const OrnamentDivider = ({ className = "" }: { className?: string }) => (
   <motion.div
-    className="flex items-center justify-center gap-3 my-6"
+    className={`flex items-center justify-center gap-3 my-2 sm:my-6 ${className}`}
     initial={{ opacity: 0, scaleX: 0 }}
     whileInView={{ opacity: 1, scaleX: 1 }}
     transition={{ duration: 0.8 }}

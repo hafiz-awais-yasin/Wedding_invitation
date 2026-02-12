@@ -28,13 +28,14 @@ export const DesktopPhoneFrame = ({
   const iframeSrc = isDesktop ? `${src}${src.includes("?") ? "&" : "?"}desktop=true` : src;
 
   return (
-    <div
-      className={`relative mx-auto ${className}`}
-      style={{ width: "min(100%, 480px)" }}
-    >
+    <div className={`relative w-full h-full flex items-center justify-center ${className}`}>
       <div
         className="relative w-full bg-transparent"
-        style={{ aspectRatio: `${MOCKUP_VIEWBOX.w} / ${MOCKUP_VIEWBOX.h}` }}
+        style={{
+          aspectRatio: `${MOCKUP_VIEWBOX.w} / ${MOCKUP_VIEWBOX.h}`,
+          maxWidth: "100%",
+          maxHeight: "100%",
+        }}
       >
         <img
           src="/mockup.svg"

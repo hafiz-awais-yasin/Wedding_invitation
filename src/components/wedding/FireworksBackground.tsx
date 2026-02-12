@@ -41,7 +41,7 @@ export const FireworksBackground = ({
     for (let b = 0; b < count; b++) {
       const x = 10 + Math.random() * 80;
       const y = 8 + Math.random() * 55;
-      const particleCount = 30 + Math.floor(Math.random() * 15);
+      const particleCount = 8 + Math.floor(Math.random() * 5);
       const particles = [];
       for (let i = 0; i < particleCount; i++) {
         const angle = (i / particleCount) * 2 * Math.PI + Math.random() * 0.4;
@@ -105,10 +105,10 @@ export const FireworksBackground = ({
               opacity: [0, 0.3, 0.12],
             }}
             transition={{
-              duration: 3.5,
-              delay: burst.id * 2.2,
+              duration: 4,
+              delay: burst.id * 3,
               repeat: Infinity,
-              repeatDelay: 4.5,
+              repeatDelay: 6,
               ease: "easeOut",
             }}
           />
@@ -134,10 +134,10 @@ export const FireworksBackground = ({
                   scale: [0.2, 1.1, 0.85, 0.05],
                 }}
                 transition={{
-                  duration: p.duration + 1.2,
+                  duration: p.duration + 1,
                   delay: p.delay,
                   repeat: Infinity,
-                  repeatDelay: 4,
+                  repeatDelay: 5,
                   ease: "easeOut",
                 }}
               />

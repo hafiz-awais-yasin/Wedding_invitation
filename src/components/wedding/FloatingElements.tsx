@@ -49,14 +49,14 @@ export const FloatingPetals = ({ count = 12 }: { count?: number }) => {
   );
 };
 
-/** Animated butterflies - bottom 50% of page, low opacity, draggable */
+/** Animated butterflies - bottom 50% of page, low opacity */
 export const FloatingButterflies = ({ count = 4 }: { count?: number }) => {
   const butterflies = Array.from({ length: count }, (_, i) => ({
     id: i,
     x: 10 + Math.random() * 80,
     startY: 55 + Math.random() * 40,
     delay: Math.random() * 4,
-    duration: 14 + Math.random() * 6,
+    duration: 18 + Math.random() * 6,
     size: 16 + Math.random() * 10,
   }));
 
@@ -65,27 +65,24 @@ export const FloatingButterflies = ({ count = 4 }: { count?: number }) => {
       {butterflies.map((b) => (
         <motion.div
           key={b.id}
-          className="absolute cursor-grab active:cursor-grabbing pointer-events-auto"
+          className="absolute"
           style={{
             left: `${b.x}%`,
             top: `${b.startY}%`,
+            willChange: "transform",
           }}
-          drag
-          dragConstraints={{ left: -30, right: 30, top: -30, bottom: 30 }}
-          dragElastic={0.2}
-          whileDrag={{ scale: 1.1, zIndex: 50 }}
           animate={{
             x: [
               0,
-              Math.sin(b.id * 0.7) * 20,
-              Math.sin(b.id * 1.2) * 25,
-              Math.sin(b.id * 0.9) * 18,
+              Math.sin(b.id * 0.7) * 15,
+              Math.sin(b.id * 1.2) * 20,
+              Math.sin(b.id * 0.9) * 12,
               0,
             ],
             y: [
               0,
-              Math.cos(b.id * 0.5) * 15,
-              Math.sin(b.id * 0.8) * 12,
+              Math.cos(b.id * 0.5) * 10,
+              Math.sin(b.id * 0.8) * 8,
               0,
             ],
           }}
@@ -96,21 +93,12 @@ export const FloatingButterflies = ({ count = 4 }: { count?: number }) => {
             ease: "easeInOut",
           }}
         >
-          <motion.span
+          <span
             className="inline-block drop-shadow-sm opacity-40"
             style={{ fontSize: b.size }}
-            animate={{
-              scaleX: [1, 1.15, 1],
-              rotate: [-4, 4, -4],
-            }}
-            transition={{
-              duration: 0.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
           >
             🦋
-          </motion.span>
+          </span>
         </motion.div>
       ))}
     </div>
@@ -136,8 +124,8 @@ export const FloatingPinkFlowers = ({ count = 14 }: { count?: number }) => {
         <motion.div
           key={f.id}
           className="absolute drop-shadow-sm"
-          style={{ left: `${f.x}%`, top: "-5%" }}
-          animate={{ y: ["0vh", "115vh"], x: [0, Math.sin(f.id * 0.4) * 15] }}
+          style={{ left: `${f.x}%`, top: "-5%", willChange: "transform" }}
+          animate={{ y: ["0vh", "115vh"], x: [0, Math.sin(f.id * 0.4) * 12] }}
           transition={{ duration: f.duration, delay: f.delay, repeat: Infinity, ease: "linear" }}
         >
           <span style={{ fontSize: f.size }} className="opacity-80">{f.emoji}</span>
@@ -166,8 +154,8 @@ export const FloatingRedFlowers = ({ count = 14 }: { count?: number }) => {
         <motion.div
           key={f.id}
           className="absolute drop-shadow-sm"
-          style={{ left: `${f.x}%`, top: "-5%" }}
-          animate={{ y: ["0vh", "115vh"], x: [0, Math.sin(f.id * 0.4) * 15] }}
+          style={{ left: `${f.x}%`, top: "-5%", willChange: "transform" }}
+          animate={{ y: ["0vh", "115vh"], x: [0, Math.sin(f.id * 0.4) * 12] }}
           transition={{ duration: f.duration, delay: f.delay, repeat: Infinity, ease: "linear" }}
         >
           <span style={{ fontSize: f.size }} className="opacity-80">{f.emoji}</span>
@@ -208,8 +196,8 @@ export const FloatingYellowFlowers = ({ count = 12 }: { count?: number }) => {
         <motion.div
           key={f.id}
           className="absolute drop-shadow-sm"
-          style={{ left: `${f.x}px`, top: "-5%" }}
-          animate={{ y: ["0vh", "115vh"], x: [0, Math.sin(f.id * 0.4) * 10] }}
+          style={{ left: `${f.x}px`, top: "-5%", willChange: "transform" }}
+          animate={{ y: ["0vh", "115vh"], x: [0, Math.sin(f.id * 0.4) * 8] }}
           transition={{ duration: f.duration, delay: f.delay, repeat: Infinity, ease: "linear" }}
         >
           <span style={{ fontSize: f.size }} className="opacity-80">{f.emoji}</span>
@@ -254,15 +242,11 @@ export const FloatingRoses = ({ count = 10 }: { count?: number }) => {
       {allRoses.map((r) => (
         <motion.div
           key={r.id}
-          className="absolute cursor-grab active:cursor-grabbing pointer-events-auto"
-          style={{ left: `${r.x}%`, top: "-5%" }}
-          drag
-          dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
-          dragElastic={0.05}
-          dragMomentum={false}
+          className="absolute"
+          style={{ left: `${r.x}%`, top: "-5%", willChange: "transform" }}
           animate={{
             y: ["0vh", "115vh"],
-            x: [0, Math.sin(r.id * 0.5) * 15],
+            x: [0, Math.sin(r.id * 0.5) * 12],
           }}
           transition={{
             duration: r.duration,

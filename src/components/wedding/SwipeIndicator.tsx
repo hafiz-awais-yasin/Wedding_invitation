@@ -52,7 +52,7 @@ export const SwipeIndicator = ({ currentIndex, totalSections, onNavigate }: Swip
 
 export const SwipeHint = () => (
   <motion.div
-    className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-2 text-gold/60 text-sm font-body"
+    className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-2 text-amber-700 text-sm font-body font-medium"
     animate={{ x: [0, -10, 0] }}
     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
   >
