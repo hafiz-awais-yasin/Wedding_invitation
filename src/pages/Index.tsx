@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Download, Phone, Car } from "lucide-react";
 import cartoonCoupleImg from "@/assets/cartoon-couple.png";
 import {
@@ -10,7 +10,7 @@ import {
   DraggableFlowers,
   Candles,
   ConfettiExplosion,
-  Fireworks,
+  BackgroundSparkles,
 } from "@/components/wedding/FloatingElements";
 import { IslamicPattern, OrnamentDivider, FloralArch } from "@/components/wedding/IslamicPattern";
 import { SwipeIndicator, SwipeHint } from "@/components/wedding/SwipeIndicator";
@@ -18,9 +18,31 @@ import BaghiAnimation from "@/components/wedding/BaghiAnimation";
 
 const sectionLabels = ["Intro", "Mehndi", "Barat", "Walima"];
 
+/** Parallax wrapper: shifts children based on horizontal scroll */
+const ParallaxLayer = ({
+  children,
+  scrollProgress,
+  speed = 0.3,
+  className = "",
+}: {
+  children: React.ReactNode;
+  scrollProgress: any;
+  speed?: number;
+  className?: string;
+}) => {
+  const x = useTransform(scrollProgress, [0, 1], ["0%", `${-speed * 100}%`]);
+  return (
+    <motion.div className={`absolute inset-0 ${className}`} style={{ x }}>
+      {children}
+    </motion.div>
+  );
+};
+
 const Index = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSection, setCurrentSection] = useState(0);
+
+  const { scrollXProgress } = useScroll({ container: containerRef });
 
   const navigateTo = useCallback((index: number) => {
     const container = containerRef.current;
@@ -70,10 +92,12 @@ const Index = () => {
       >
         {/* ===== INTRO ===== */}
         <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-section-gradient overflow-hidden">
-          <IslamicPattern className="w-[500px] h-[500px] top-0 left-0" />
-          <IslamicPattern className="w-[400px] h-[400px] bottom-0 right-0" />
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.15}>
+            <IslamicPattern className="w-[500px] h-[500px] top-0 left-0" />
+            <IslamicPattern className="w-[400px] h-[400px] bottom-0 right-0" />
+          </ParallaxLayer>
+          <BackgroundSparkles count={25} />
           <FloatingPetals count={15} />
-          <Fireworks count={10} />
           <GlowingLights count={20} />
           <Candles count={4} />
           <DraggableFlowers count={5} />
@@ -143,17 +167,17 @@ const Index = () => {
 
             <SwipeHint />
           </motion.div>
-
-          
         </section>
 
         {/* ===== MEHNDI ===== */}
         <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-mehndi-gradient overflow-hidden">
-          <IslamicPattern className="w-[400px] h-[400px] top-10 right-10" />
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.1}>
+            <IslamicPattern className="w-[400px] h-[400px] top-10 right-10" />
+          </ParallaxLayer>
+          <BackgroundSparkles count={18} />
           <FloatingMarigolds count={12} />
           <FloatingLanterns count={5} />
           <DraggableFlowers count={4} />
-          <Fireworks count={6} />
 
           <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
             <span className="text-5xl mb-4 block">💐</span>
@@ -179,18 +203,18 @@ const Index = () => {
               An evening of color, joy & celebration
             </motion.p>
           </motion.div>
-
-          
         </section>
 
         {/* ===== BARAT ===== */}
         <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-section-gradient overflow-hidden">
-          <IslamicPattern className="w-[500px] h-[500px] bottom-0 left-0" />
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.2}>
+            <IslamicPattern className="w-[500px] h-[500px] bottom-0 left-0" />
+          </ParallaxLayer>
+          <BackgroundSparkles count={22} />
           <FloatingLanterns count={7} />
           <Candles count={6} />
           <GlowingLights count={18} />
           <DraggableFlowers count={4} />
-          <Fireworks count={8} />
 
           <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
             <span className="text-5xl mb-4 block">🕌</span>
@@ -221,11 +245,13 @@ const Index = () => {
 
         {/* ===== WALIMA + CLOSING ===== */}
         <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-walima-gradient overflow-hidden">
-          <IslamicPattern className="w-[450px] h-[450px] top-0 right-0" />
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.12}>
+            <IslamicPattern className="w-[450px] h-[450px] top-0 right-0" />
+          </ParallaxLayer>
+          <BackgroundSparkles count={20} />
           <FloatingPetals count={10} />
           <GlowingLights count={15} />
           <DraggableFlowers count={5} />
-          <Fireworks count={8} />
 
           <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
             <span className="text-5xl mb-4 block">🌙</span>
@@ -272,8 +298,6 @@ const Index = () => {
               جزاكم الله خيرا
             </motion.p>
           </motion.div>
-
-          
         </section>
       </div>
 
