@@ -246,3 +246,40 @@
   }
 
 }
+
+/* Print styles - full card download / save as PDF */
+@media print {
+  html, body {
+    overflow: visible !important;
+    height: auto !important;
+  }
+  #root {
+    overflow: visible !important;
+    height: auto !important;
+  }
+  /* Hide UI controls */
+  .no-print {
+    display: none !important;
+  }
+  /* Show all sections stacked vertically for full card */
+  .scroll-snap-container {
+    overflow: visible !important;
+    flex-direction: column !important;
+    height: auto !important;
+    scroll-snap-type: none !important;
+  }
+  .scroll-snap-section {
+    width: 100% !important;
+    min-height: 100vh !important;
+    page-break-after: always;
+    flex-shrink: 0 !important;
+  }
+  .scroll-snap-section:last-child {
+    page-break-after: auto;
+  }
+  /* Pause animations for cleaner print */
+  .card-animated-border,
+  .card-shimmer-overlay {
+    animation: none !important;
+  }
+}
