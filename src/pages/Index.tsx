@@ -42,7 +42,11 @@ const ParallaxLayer = ({
   );
 };
 
-const Index = () => {
+interface IndexProps {
+  isDesktopIframe?: boolean;
+}
+
+const Index = ({ isDesktopIframe = false }: IndexProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSection, setCurrentSection] = useState(0);
   const { scrollXProgress } = useScroll({ container: containerRef });
@@ -77,8 +81,14 @@ const Index = () => {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden relative">
-      {/* Download button */}
+    <div className="min-h-screen flex justify-center md:items-center md:py-6 md:bg-neutral-950">
+      {/* Desktop: centered card (430px = ~iPhone width); Mobile: full width */}
+      <div
+        className="w-full h-screen md:w-[430px] md:h-[90vh] md:max-h-[932px] md:rounded-[2.5rem] md:overflow-hidden md:shadow-2xl md:border md:border-white/10 relative"
+        style={{ transform: "translateZ(0)" }}
+      >
+      {/* Download button - hidden when embedded in desktop iframe */}
+      {!isDesktopIframe && (
       <motion.button
         onClick={handleDownload}
         className="no-print fixed top-4 right-4 z-50 w-10 h-10 rounded-full border border-gold/30 bg-background/80 backdrop-blur-sm flex items-center justify-center text-gold/70 hover:text-gold hover:border-gold transition-colors"
@@ -88,13 +98,14 @@ const Index = () => {
       >
         <Download size={18} />
       </motion.button>
+      )}
 
       <div
         ref={containerRef}
         className="scroll-snap-container flex h-full w-full"
       >
         {/* ===== INTRO ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen min-h-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full min-h-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
           {/* Intro background - ornate bridal illustration */}
           <div
             className="absolute inset-0 z-0"
@@ -103,6 +114,7 @@ const Index = () => {
               backgroundSize: "auto 100%",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
+              backgroundColor: "#FAF8F5",
             }}
           />
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.15}>
@@ -216,7 +228,7 @@ const Index = () => {
         </section>
 
         {/* ===== MEHNDI ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen min-h-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-40">
+        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full min-h-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
           {/* Mehndi background - fills entire section, image height 100% */}
           <div
             className="absolute inset-0 z-0"
@@ -225,6 +237,7 @@ const Index = () => {
               backgroundSize: "auto 100%",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
+              backgroundColor: "#F5F0E8",
             }}
           />
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.12}>
@@ -305,7 +318,7 @@ const Index = () => {
         </section>
 
         {/* ===== BARAT ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
           {/* Barat background - fills entire section */}
           <div
             className="absolute inset-0 z-0"
@@ -413,7 +426,7 @@ const Index = () => {
         </section>
 
         {/* ===== WALIMA + CLOSING ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
           {/* Same background as Barat */}
           <div
             className="absolute inset-0 z-0"
@@ -548,6 +561,7 @@ const Index = () => {
           </svg>
         </a>
         </div>
+      </div>
       </div>
     </div>
   );

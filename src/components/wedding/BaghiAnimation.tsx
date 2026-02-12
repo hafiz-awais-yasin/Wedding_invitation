@@ -17,15 +17,15 @@ const BaghiAnimation = () => (
       initial={{ x: "-200px" }}
       animate={{ x: ["-200px", "calc(100vw + 150px)"] }}
       transition={{
-        duration: 10,
+        duration: 5.5,
         repeat: Infinity,
         ease: "linear",
-        repeatDelay: 1,
+        repeatDelay: 0.3,
       }}
     >
       <motion.div
-        animate={{ y: [0, -4, 0, -2, 0] }}
-        transition={{ duration: 0.5, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ y: [0, -3, 0, -2, 0] }}
+        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
       >
         <img
           src={baghiImg}
