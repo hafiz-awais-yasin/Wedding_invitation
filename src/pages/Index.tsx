@@ -1,36 +1,40 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Download, Phone, Car } from "lucide-react";
-import cartoonCoupleImg from "@/assets/cartoon-couple.png";
+import { Download, Phone, Car, MapPin } from "lucide-react";
+import introBg from "@/assets/intro-background.png";
+import mehndiBg from "@/assets/mehndi-background.png";
+import baratBg from "@/assets/barat-background.png";
 import {
+  FloatingButterflies,
+  FloatingRoses,
+  FloatingYellowFlowers,
+  FloatingPinkFlowers,
+  FloatingRedFlowers,
   FloatingPetals,
   FloatingMarigolds,
-  FloatingLanterns,
-  GlowingLights,
-  DraggableFlowers,
-  Candles,
   ConfettiExplosion,
-  BackgroundSparkles,
 } from "@/components/wedding/FloatingElements";
-import { IslamicPattern, OrnamentDivider, FloralArch } from "@/components/wedding/IslamicPattern";
+import { FireworksBackground } from "@/components/wedding/FireworksBackground";
+import { OrnamentDivider } from "@/components/wedding/IslamicPattern";
 import { SwipeIndicator, SwipeHint } from "@/components/wedding/SwipeIndicator";
 import BaghiAnimation from "@/components/wedding/BaghiAnimation";
+import WeddingCarAnimation from "@/components/wedding/WeddingCarAnimation";
 
 const sectionLabels = ["Intro", "Mehndi", "Barat", "Walima"];
 
-/** Parallax wrapper: shifts children based on horizontal scroll */
+/** Parallax layer that shifts based on horizontal scroll */
 const ParallaxLayer = ({
   children,
   scrollProgress,
-  speed = 0.3,
+  speed = 0.2,
   className = "",
 }: {
   children: React.ReactNode;
-  scrollProgress: any;
+  scrollProgress: ReturnType<typeof useScroll>["scrollXProgress"];
   speed?: number;
   className?: string;
 }) => {
-  const x = useTransform(scrollProgress, [0, 1], ["0%", `${-speed * 100}%`]);
+  const x = useTransform(scrollProgress, [0, 1], ["0%", `${-speed * 50}%`]);
   return (
     <motion.div className={`absolute inset-0 ${className}`} style={{ x }}>
       {children}
@@ -41,7 +45,6 @@ const ParallaxLayer = ({
 const Index = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSection, setCurrentSection] = useState(0);
-
   const { scrollXProgress } = useScroll({ container: containerRef });
 
   const navigateTo = useCallback((index: number) => {
@@ -91,20 +94,36 @@ const Index = () => {
         className="scroll-snap-container flex h-full w-full"
       >
         {/* ===== INTRO ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-section-gradient overflow-hidden">
+        <section className="scroll-snap-section flex-shrink-0 w-screen min-h-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+          {/* Intro background - ornate bridal illustration */}
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              backgroundImage: `url(${introBg})`,
+              backgroundSize: "auto 100%",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.15}>
-            <IslamicPattern className="w-[500px] h-[500px] top-0 left-0" />
-            <IslamicPattern className="w-[400px] h-[400px] bottom-0 right-0" />
+            <FireworksBackground count={8} light />
           </ParallaxLayer>
-          <BackgroundSparkles count={25} />
-          <FloatingPetals count={15} />
-          <GlowingLights count={20} />
-          <Candles count={4} />
-          <DraggableFlowers count={5} />
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.06}>
+            <FloatingButterflies count={4} />
+          </ParallaxLayer>
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.04}>
+            <FloatingRoses count={12} />
+          </ParallaxLayer>
 
-          <motion.div className="relative z-30 text-center px-6 max-w-lg" {...sectionAnim}>
+          {/* All content centered in central white area */}
+          <motion.div
+            className="relative z-30 flex-1 min-h-0 flex flex-col items-center justify-center px-5 sm:px-8 py-4 max-w-[440px] mx-auto overflow-y-auto overflow-x-hidden isolate"
+            {...sectionAnim}
+          >
+            {/* Top: Bismillah */}
             <motion.p
-              className="font-arabic text-gold/70 text-lg mb-4"
+              className="font-arabic text-base sm:text-lg mb-2 text-center drop-shadow-lg"
+              style={{ color: "hsl(43 70% 45%)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -112,52 +131,79 @@ const Index = () => {
               بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
             </motion.p>
 
-            <OrnamentDivider />
-
-            <FloralArch>
-              <motion.div
-                className="w-48 h-48 sm:w-56 sm:h-56 mx-auto rounded-full overflow-hidden border-ornate p-1 mb-6"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-              >
-                <img
-                  src={cartoonCoupleImg}
-                  alt="Hafiz Awais Yasin & Miral Fatima"
-                  className="w-full h-full object-cover rounded-full"
-                />
-              </motion.div>
-            </FloralArch>
-
-            <motion.h1
-              className="font-display text-3xl sm:text-4xl md:text-5xl text-gold-gradient glow-gold leading-tight mb-3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-            >
-              Hafiz Awais Yasin
-            </motion.h1>
+            {/* Invite text */}
             <motion.p
-              className="text-gold/60 text-xl font-display italic mb-1"
+              className="font-body text-sm sm:text-base mb-5 leading-relaxed tracking-[0.2em] uppercase text-center font-medium text-amber-800"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
+              transition={{ delay: 0.4 }}
             >
-              Weds
+              You are cordially invited to the wedding of
             </motion.p>
-            <motion.h1
-              className="font-display text-3xl sm:text-4xl md:text-5xl text-gold-gradient glow-gold leading-tight mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2 }}
-            >
-              Miral Fatima
-            </motion.h1>
+
+            {/* Names - bold, prominent, with reveal animation */}
+            <div className="flex flex-col items-center gap-1 w-full flex-shrink-0">
+              <motion.h1
+                className="font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-center"
+                style={{
+                  background: "linear-gradient(135deg, hsl(43 90% 65%) 0%, hsl(38 65% 35%) 50%, hsl(43 80% 50%) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+                initial={{ opacity: 0, y: 24, scale: 0.95 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                }}
+                transition={{
+                  delay: 0.7,
+                  duration: 0.9,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+              >
+                Hafiz Awais Yasin
+              </motion.h1>
+              <motion.p
+                className="text-2xl sm:text-3xl font-display italic font-semibold"
+                style={{ color: "hsl(43 65% 40%)" }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1, duration: 0.6 }}
+              >
+                Weds
+              </motion.p>
+              <motion.h1
+                className="font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-center"
+                style={{
+                  background: "linear-gradient(135deg, hsl(43 90% 65%) 0%, hsl(38 65% 35%) 50%, hsl(43 80% 50%) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+                initial={{ opacity: 0, y: 24, scale: 0.95 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                }}
+                transition={{
+                  delay: 1.1,
+                  duration: 0.9,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+              >
+                Miral Fatima
+              </motion.h1>
+            </div>
 
             <OrnamentDivider />
 
+            {/* Arabic verse */}
             <motion.p
-              className="font-arabic text-gold/50 text-sm mt-2"
+              className="font-arabic text-xs sm:text-sm mt-1 text-center max-w-[300px] leading-relaxed"
+              style={{ color: "hsl(43 60% 40%)" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5 }}
@@ -170,32 +216,85 @@ const Index = () => {
         </section>
 
         {/* ===== MEHNDI ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-mehndi-gradient overflow-hidden">
-          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.1}>
-            <IslamicPattern className="w-[400px] h-[400px] top-10 right-10" />
+        <section className="scroll-snap-section flex-shrink-0 w-screen min-h-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-40">
+          {/* Mehndi background - fills entire section, image height 100% */}
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              backgroundImage: `url(${mehndiBg})`,
+              backgroundSize: "auto 100%",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.12}>
+            <FireworksBackground count={10} light />
           </ParallaxLayer>
-          <BackgroundSparkles count={18} />
-          <FloatingMarigolds count={12} />
-          <FloatingLanterns count={5} />
-          <DraggableFlowers count={4} />
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.06}>
+            <FloatingButterflies count={8} />
+          </ParallaxLayer>
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.04}>
+            <FloatingYellowFlowers count={14} />
+          </ParallaxLayer>
 
-          <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
-            <span className="text-5xl mb-4 block">💐</span>
-            <h2 className="font-display text-4xl sm:text-5xl text-gold-gradient glow-gold mb-2">Mehndi</h2>
+          {/* Card section */}
+          <motion.div
+            className="relative z-30 flex-1 min-h-0 flex flex-col items-center justify-center px-4 py-4 max-w-md mx-auto overflow-y-auto overflow-x-hidden"
+            {...sectionAnim}
+          >
+            <h2
+              className="font-display text-4xl sm:text-5xl mb-2 flex-shrink-0 font-bold tracking-wide"
+              style={{
+                background: "linear-gradient(135deg, hsl(45 95% 55%) 0%, hsl(30 75% 35%) 50%, hsl(38 80% 45%) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Mehndi
+            </h2>
             <OrnamentDivider />
 
-            <div className="border-ornate rounded-2xl p-6 sm:p-8 mt-4 shimmer">
-              <p className="text-gold/80 font-body text-lg mb-1">📅 April 2, 2026 — Thursday</p>
-              <p className="text-gold/80 font-body text-lg mb-4">🕖 7:00 PM</p>
-              <div className="h-px bg-gold/20 my-4" />
-              <p className="text-gold/60 font-body text-sm uppercase tracking-widest mb-2">Venue</p>
-              <p className="text-foreground font-body text-base leading-relaxed">
-                House # 229B, Dargahi Shah, Kamalia
+            {/* Event card - animated gradient border */}
+            <div className="w-full flex-shrink-0 mt-3 rounded-2xl p-[2px] card-animated-border">
+              <div
+                className="rounded-[14px] p-5 sm:p-7 relative overflow-hidden text-left"
+                style={{
+                  background: "linear-gradient(165deg, hsl(55 50% 97%) 0%, hsl(45 45% 93%) 25%, hsl(40 40% 90%) 50%, hsl(38 35% 88%) 75%, hsl(35 30% 85%) 100%)",
+                }}
+              >
+                <div className="card-shimmer-overlay" aria-hidden />
+                <div className="flex items-center gap-2 mb-2">
+                <span className="text-2xl sm:text-3xl flex-shrink-0">📅</span>
+                <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">
+                  April 2, 2026 — Thursday
+                </p>
+              </div>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-2xl sm:text-3xl flex-shrink-0">🕖</span>
+                <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">
+                  7:00 PM
+                </p>
+              </div>
+              <div className="h-px my-4" style={{ background: "linear-gradient(90deg, transparent, hsl(43 60% 65% / 0.7), transparent)" }} />
+              <p className="text-amber-800 font-body text-xs uppercase tracking-[0.2em] mb-2 font-semibold">
+                Venue
               </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=House+229B+Dargahi+Shah+Kamalia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-stone-800 font-body text-sm sm:text-base leading-relaxed flex items-center gap-2 hover:text-amber-700 transition-colors"
+              >
+                <MapPin size={16} className="flex-shrink-0 text-amber-600" />
+                House # 229B, Dargahi Shah, Kamalia
+              </a>
+              </div>
             </div>
 
             <motion.p
-              className="text-gold/40 font-arabic text-xs mt-6"
+              className="font-arabic text-xs mt-4 pb-2 flex-shrink-0"
+              style={{ color: "hsl(43 50% 45%)" }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -206,83 +305,185 @@ const Index = () => {
         </section>
 
         {/* ===== BARAT ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-section-gradient overflow-hidden">
-          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.2}>
-            <IslamicPattern className="w-[500px] h-[500px] bottom-0 left-0" />
+        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+          {/* Barat background - fills entire section */}
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              backgroundImage: `url(${baratBg})`,
+              backgroundSize: "auto 100%",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundColor: "#EEE9E5",
+            }}
+          />
+          {/* Fireworks */}
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.08}>
+            <FireworksBackground count={6} light />
           </ParallaxLayer>
-          <BackgroundSparkles count={22} />
-          <FloatingLanterns count={7} />
-          <Candles count={6} />
-          <GlowingLights count={18} />
-          <DraggableFlowers count={4} />
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.04}>
+            <FloatingPinkFlowers count={14} />
+          </ParallaxLayer>
 
-          <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
-            <span className="text-5xl mb-4 block">🕌</span>
-            <h2 className="font-display text-4xl sm:text-5xl text-gold-gradient glow-gold mb-2">Barat</h2>
+          {/* Card section */}
+          <motion.div
+            className="relative z-20 flex-1 flex flex-col items-center justify-start px-4 py-3 pt-1 max-w-md mx-auto min-h-0"
+            {...sectionAnim}
+          >
+            <motion.h2
+              className="font-display text-4xl sm:text-5xl mb-2 flex-shrink-0 font-bold tracking-wide"
+              style={{
+                background: "linear-gradient(135deg, hsl(45 95% 55%) 0%, hsl(30 75% 35%) 50%, hsl(38 80% 45%) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
+              Barat
+            </motion.h2>
             <OrnamentDivider />
 
-            <div className="border-ornate rounded-2xl p-6 sm:p-8 mt-4 shimmer">
-              <p className="text-gold/80 font-body text-lg mb-1">📅 April 3, 2026 — Friday</p>
-              <p className="text-gold/80 font-body text-lg mb-4">🎀 Sehra Bandi: 1:00 PM</p>
-              <div className="h-px bg-gold/20 my-4" />
-              <p className="text-gold/60 font-body text-sm uppercase tracking-widest mb-2">Departure</p>
-              <p className="text-foreground font-body text-sm leading-relaxed mb-2">
+            <motion.div
+              className="w-full flex-shrink-0 mt-3 rounded-2xl p-[2px] card-animated-border"
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+              viewport={{ once: true }}
+            >
+              <div
+                className="rounded-[14px] p-5 sm:p-7 relative overflow-hidden text-left"
+                style={{
+                  background: "linear-gradient(165deg, hsl(55 50% 97%) 0%, hsl(45 45% 93%) 25%, hsl(40 40% 90%) 50%, hsl(38 35% 88%) 75%, hsl(35 30% 85%) 100%)",
+                }}
+              >
+                <div className="card-shimmer-overlay" aria-hidden />
+                <div className="flex items-center gap-2 mb-2">
+                <span className="text-2xl sm:text-3xl flex-shrink-0">📅</span>
+                <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">
+                  April 3, 2026 — Friday
+                </p>
+              </div>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-2xl sm:text-3xl flex-shrink-0">🎀</span>
+                <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">
+                  Sehra Bandi: 1:00 PM
+                </p>
+              </div>
+              <div className="h-px my-4" style={{ background: "linear-gradient(90deg, transparent, hsl(43 60% 65% / 0.7), transparent)" }} />
+              <p className="text-amber-800 font-body text-xs uppercase tracking-[0.2em] mb-2 font-semibold">
+                Departure
+              </p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=House+229B+Dargahi+Shah+Kamalia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-stone-800 font-body text-sm sm:text-base leading-relaxed mb-2 flex items-center gap-2 hover:text-amber-700 transition-colors"
+              >
+                <MapPin size={16} className="flex-shrink-0 text-amber-600" />
                 House # 229B, Dargahi Shah, Kamalia
+              </a>
+              <p className="text-amber-800 font-body text-sm flex items-center gap-2 mb-4">
+                <Car size={18} className="text-amber-700 flex-shrink-0" /> Departure Time: 2:30 PM
               </p>
-              <p className="text-gold/80 font-body text-sm flex items-center justify-center gap-2">
-                <Car size={16} className="text-gold" /> Departure Time: 2:30 PM
+              <div className="h-px my-4" style={{ background: "linear-gradient(90deg, transparent, hsl(43 60% 65% / 0.7), transparent)" }} />
+              <p className="text-amber-800 font-body text-xs uppercase tracking-[0.2em] mb-2 font-semibold">
+                Venue
               </p>
-              <div className="h-px bg-gold/20 my-4" />
-              <p className="text-gold/60 font-body text-sm uppercase tracking-widest mb-2">Venue</p>
-              <p className="text-foreground font-body text-sm leading-relaxed">
-                Topaz Marquee, Plot # 411–416, Block D-2, Behind LDA Sports Complex, Johar Town, Lahore
-              </p>
-            </div>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Topaz+Marquee+Block+D-2+LDA+Sports+Complex+Johar+Town+Lahore"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-stone-800 font-body text-sm sm:text-base leading-relaxed flex items-start gap-2 hover:text-amber-700 transition-colors"
+              >
+                <MapPin size={16} className="flex-shrink-0 text-amber-600 mt-0.5" />
+                <span>Topaz Marquee, Plot # 411–416, Block D-2, Behind LDA Sports Complex, Johar Town, Lahore</span>
+              </a>
+              </div>
+            </motion.div>
           </motion.div>
 
-          <BaghiAnimation />
+          {/* Baghi area - blends with gradient above, fireworks on top of image */}
+          <div className="relative h-[170px] sm:h-[190px] flex-shrink-0 z-10 min-h-0 overflow-hidden">
+            <BaghiAnimation />
+          </div>
         </section>
 
         {/* ===== WALIMA + CLOSING ===== */}
-        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex items-center justify-center bg-walima-gradient overflow-hidden">
+        <section className="scroll-snap-section flex-shrink-0 w-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+          {/* Same background as Barat */}
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              backgroundImage: `url(${baratBg})`,
+              backgroundSize: "auto 100%",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundColor: "#EEE9E5",
+            }}
+          />
           <ParallaxLayer scrollProgress={scrollXProgress} speed={0.12}>
-            <IslamicPattern className="w-[450px] h-[450px] top-0 right-0" />
+            <FireworksBackground count={6} light />
           </ParallaxLayer>
-          <BackgroundSparkles count={20} />
-          <FloatingPetals count={10} />
-          <GlowingLights count={15} />
-          <DraggableFlowers count={5} />
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.06}>
+            <FloatingButterflies count={14} />
+          </ParallaxLayer>
+          <ParallaxLayer scrollProgress={scrollXProgress} speed={0.04}>
+            <FloatingRedFlowers count={14} />
+          </ParallaxLayer>
 
-          <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
-            <span className="text-5xl mb-4 block">🌙</span>
-            <h2 className="font-display text-4xl sm:text-5xl text-gold-gradient glow-gold mb-2">Walima</h2>
+          <motion.div className="relative z-20 flex-1 min-h-0 flex flex-col items-center justify-start px-6 py-3 pt-1 max-w-md mx-auto overflow-y-auto overflow-x-hidden" {...sectionAnim}>
+            <h2
+              className="font-display text-4xl sm:text-5xl mb-2 flex-shrink-0 font-bold tracking-wide"
+              style={{
+                background: "linear-gradient(135deg, hsl(45 95% 55%) 0%, hsl(30 75% 35%) 50%, hsl(38 80% 45%) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Walima
+            </h2>
             <OrnamentDivider />
 
-            <div className="border-ornate rounded-2xl p-6 sm:p-8 mt-4 shimmer">
-              <p className="text-gold/80 font-body text-lg mb-1">📅 April 4, 2026 — Saturday</p>
-              <p className="text-gold/80 font-body text-lg mb-4">🕕 6:00 PM</p>
-              <div className="h-px bg-gold/20 my-4" />
-              <p className="text-gold/60 font-body text-sm uppercase tracking-widest mb-2">Venue</p>
-              <p className="text-foreground font-body text-base leading-relaxed">
-                Royal Palace, Rajhana Road, Kamalia
-              </p>
+            <div className="rounded-2xl p-[2px] mt-4 w-full card-animated-border flex-shrink-0">
+              <div
+                className="rounded-[14px] p-6 sm:p-8 relative overflow-hidden text-left"
+                style={{
+                  background: "linear-gradient(165deg, hsl(55 50% 97%) 0%, hsl(45 45% 93%) 25%, hsl(40 40% 90%) 50%, hsl(38 35% 88%) 75%, hsl(35 30% 85%) 100%)",
+                }}
+              >
+                <div className="card-shimmer-overlay" aria-hidden />
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-2xl sm:text-3xl flex-shrink-0">📅</span>
+                  <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">April 4, 2026 — Saturday</p>
+                </div>
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-2xl sm:text-3xl flex-shrink-0">🕕</span>
+                  <p className="font-body text-base sm:text-lg font-medium text-amber-900 min-w-0">6:00 PM</p>
+                </div>
+                <div className="h-px my-4" style={{ background: "linear-gradient(90deg, transparent, hsl(43 60% 65% / 0.7), transparent)" }} />
+                <p className="text-amber-800 font-body text-xs uppercase tracking-[0.2em] mb-2 font-semibold">Venue</p>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Royal+Palace+Rajhana+Road+Kamalia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-800 font-body text-sm sm:text-base leading-relaxed flex items-center gap-2 hover:text-amber-700 transition-colors"
+                >
+                  <MapPin size={16} className="flex-shrink-0 text-amber-600" />
+                  Royal Palace, Rajhana Road, Kamalia
+                </a>
+              </div>
             </div>
 
             {/* Closing info */}
-            <div className="mt-6">
-              <p className="text-gold/60 font-body text-sm mb-3">
+            <div className="mt-4 flex-shrink-0">
+              <p className="text-amber-700 font-body text-sm mb-3">
                 Looking forward to celebrating with all family members 💌
               </p>
-              <div className="border-ornate rounded-xl p-4 inline-block">
-                <p className="text-gold/50 font-body text-xs uppercase tracking-widest mb-1">Contact</p>
-                <p className="text-foreground font-body text-sm mb-0.5">Hassan (Younger Brother)</p>
-                <a
-                  href="tel:03008007152"
-                  className="text-gold font-display text-lg tracking-wider hover:underline inline-flex items-center gap-2"
-                >
-                  <Phone size={16} /> 0300-8007152
-                </a>
-              </div>
             </div>
 
             <div className="mt-4">
@@ -290,7 +491,8 @@ const Index = () => {
             </div>
 
             <motion.p
-              className="font-arabic text-gold/40 text-sm mt-4"
+              className="font-arabic text-sm mt-4 flex-shrink-0"
+              style={{ color: "hsl(43 50% 45%)" }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -298,14 +500,55 @@ const Index = () => {
               جزاكم الله خيرا
             </motion.p>
           </motion.div>
+
+          {/* Wedding car area - same animation style as Baghi */}
+          <div className="relative h-[170px] sm:h-[190px] flex-shrink-0 z-10 min-h-0 overflow-hidden">
+            <WeddingCarAnimation />
+          </div>
         </section>
       </div>
 
-      <SwipeIndicator
-        currentIndex={currentSection}
-        totalSections={sectionLabels.length}
-        onNavigate={navigateTo}
+      {/* Gradient shadow so swipe icons are always visible */}
+      <div
+        className="fixed bottom-0 left-0 right-0 h-24 pointer-events-none z-40"
+        style={{
+          background: "linear-gradient(180deg, transparent 0%, hsl(30 20% 8% / 0.4) 40%, hsl(30 25% 6% / 0.7) 100%)",
+        }}
       />
+      {/* Bottom bar - swipe (left), contact (right), same height */}
+      <div className="fixed bottom-5 sm:bottom-6 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 gap-3 pointer-events-none [&>*]:pointer-events-auto">
+        <SwipeIndicator
+          currentIndex={currentSection}
+          totalSections={sectionLabels.length}
+          onNavigate={navigateTo}
+        />
+        <div
+          className="flex items-center gap-1.5 sm:gap-2 opacity-80 hover:opacity-100 transition-opacity rounded-full px-2 py-1.5 sm:px-3 sm:py-2 h-10 sm:h-11 flex-shrink-0"
+          style={{
+            background: "linear-gradient(135deg, hsl(30 20% 12% / 0.6) 0%, hsl(30 25% 8% / 0.55) 100%)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 hsl(43 72% 52% / 0.2)",
+          }}
+        >
+        <a
+          href="tel:03008007152"
+          className="w-8 h-8 rounded-full border border-gold/30 flex items-center justify-center text-gold/70 hover:text-gold hover:border-gold transition-colors flex-shrink-0"
+          title="Call on phone"
+        >
+          <Phone size={16} />
+        </a>
+        <a
+          href="https://wa.me/923008007152"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-8 h-8 rounded-full border border-gold/30 flex items-center justify-center transition-colors hover:border-gold flex-shrink-0"
+          title="Connect on WhatsApp"
+        >
+          <svg viewBox="0 0 24 24" className="w-4 h-4 sm:w-5 sm:h-5" fill="#25D366">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
+        </a>
+        </div>
+      </div>
     </div>
   );
 };

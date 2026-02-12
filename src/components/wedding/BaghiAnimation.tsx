@@ -1,59 +1,36 @@
 import { motion } from "framer-motion";
-import baghiImg from "@/assets/baghi-scene.png";
+import baghiImg from "@/assets/de9f387d791354bd20cb663a8d415919.png";
+import { FireworksBackground } from "./FireworksBackground";
 
 const BaghiAnimation = () => (
-  <div className="absolute bottom-0 left-0 right-0 h-[120px] z-40 pointer-events-none overflow-hidden">
-    {/* Road surface */}
-    <div className="absolute bottom-0 left-0 right-0 h-[40px] bg-gradient-to-t from-black/30 to-transparent" />
-    <div className="absolute bottom-[35px] left-0 right-0 h-[2px] bg-gold/20" />
-
-    {/* Diyas along the road */}
-    <div className="absolute bottom-[8px] left-0 right-0 flex justify-around px-4">
-      {Array.from({ length: 8 }, (_, i) => (
-        <motion.span
-          key={i}
-          className="text-sm"
-          animate={{ opacity: [0.3, 1, 0.3], scale: [0.9, 1.1, 0.9] }}
-          transition={{ duration: 1.5, delay: i * 0.3, repeat: Infinity }}
-        >
-          🪔
-        </motion.span>
-      ))}
+  <div className="absolute left-0 right-0 bottom-0 top-0 pointer-events-none overflow-hidden">
+    {/* Fireworks overlay on top of baghi image */}
+    <div className="absolute inset-0 z-[1]">
+      <FireworksBackground count={4} light />
     </div>
+    {/* Ground line - gold accent */}
+    <div className="absolute bottom-[20px] left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-amber-400/60 to-transparent z-[2]" />
 
-    {/* Baghi carriage */}
+    {/* Baghi procession - full image visible */}
     <motion.div
-      className="absolute bottom-[20px] w-[130px] sm:w-[170px]"
-      initial={{ x: "-180px" }}
-      animate={{ x: ["-180px", "calc(100vw + 100px)"] }}
+      className="absolute bottom-0 w-[180px] sm:w-[220px] z-0"
+      initial={{ x: "-200px" }}
+      animate={{ x: ["-200px", "calc(100vw + 150px)"] }}
       transition={{
-        duration: 14,
+        duration: 10,
         repeat: Infinity,
         ease: "linear",
-        repeatDelay: 2,
+        repeatDelay: 1,
       }}
     >
-      {/* Trotting motion */}
       <motion.div
-        animate={{ y: [0, -6, 0, -3, 0] }}
-        transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ y: [0, -4, 0, -2, 0] }}
+        transition={{ duration: 0.5, repeat: Infinity, ease: "easeInOut" }}
       >
-        {/* Dust particles */}
-        <motion.div
-          className="absolute -bottom-2 -left-6 w-12 h-4 rounded-full"
-          style={{ background: "radial-gradient(ellipse, hsl(35 30% 50% / 0.3), transparent)" }}
-          animate={{ opacity: [0.1, 0.4, 0.1], scaleX: [0.6, 1.4, 0.6] }}
-          transition={{ duration: 0.5, repeat: Infinity }}
-        />
         <img
           src={baghiImg}
-          alt="Wedding Baghi"
-          className="w-full h-auto drop-shadow-[0_4px_16px_hsl(43_72%_52%/0.35)]"
-        />
-        {/* Ground glow */}
-        <div
-          className="absolute -bottom-3 left-[10%] right-[10%] h-5 rounded-full"
-          style={{ background: "radial-gradient(ellipse, hsl(43 72% 52% / 0.2), transparent)" }}
+          alt="Wedding Baraat Procession"
+          className="w-full h-auto object-contain object-bottom max-h-[170px] sm:max-h-[190px]"
         />
       </motion.div>
     </motion.div>
