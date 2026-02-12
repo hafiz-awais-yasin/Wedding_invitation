@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Download, Phone, Car, MapPin } from "lucide-react";
+import { Phone, Car, MapPin } from "lucide-react";
 import introBg from "@/assets/intro-background.png";
 import mehndiBg from "@/assets/mehndi-background.png";
 import baratBg from "@/assets/barat-background.png";
@@ -69,10 +69,6 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleDownload = () => {
-    window.print();
-  };
-
   const sectionAnim = {
     initial: { opacity: 0, y: 30 },
     whileInView: { opacity: 1, y: 0 },
@@ -87,25 +83,12 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
         className="w-full h-screen md:w-[430px] md:h-[90vh] md:max-h-[932px] md:rounded-[2.5rem] md:overflow-hidden md:shadow-2xl md:border md:border-white/10 relative"
         style={{ transform: "translateZ(0)" }}
       >
-      {/* Download button - hidden when embedded in desktop iframe */}
-      {!isDesktopIframe && (
-      <motion.button
-        onClick={handleDownload}
-        className="no-print fixed top-4 right-4 z-50 w-10 h-10 rounded-full border border-gold/30 bg-background/80 backdrop-blur-sm flex items-center justify-center text-gold/70 hover:text-gold hover:border-gold transition-colors"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        title="Download full card (Print / Save as PDF)"
-      >
-        <Download size={18} />
-      </motion.button>
-      )}
-
       <div
         ref={containerRef}
         className="scroll-snap-container flex h-full w-full"
       >
         {/* ===== INTRO ===== */}
-        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full min-h-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full min-h-screen h-screen relative flex flex-col overflow-hidden pb-safe-bar pt-4">
           {/* Intro background - ornate bridal illustration */}
           <div
             className="absolute inset-0 z-0"
@@ -228,7 +211,7 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
         </section>
 
         {/* ===== MEHNDI ===== */}
-        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full min-h-screen h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full min-h-screen h-screen relative flex flex-col overflow-hidden pb-safe-bar pt-4">
           {/* Mehndi background - fills entire section, image height 100% */}
           <div
             className="absolute inset-0 z-0"
@@ -318,7 +301,7 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
         </section>
 
         {/* ===== BARAT ===== */}
-        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full h-screen relative flex flex-col overflow-hidden pb-safe-bar pt-4">
           {/* Barat background - fills entire section */}
           <div
             className="absolute inset-0 z-0"
@@ -426,7 +409,7 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
         </section>
 
         {/* ===== WALIMA + CLOSING ===== */}
-        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full h-screen relative flex flex-col overflow-hidden pb-14 pt-4">
+        <section className="scroll-snap-section flex-shrink-0 min-w-full w-full h-screen relative flex flex-col overflow-hidden pb-safe-bar pt-4">
           {/* Same background as Barat */}
           <div
             className="absolute inset-0 z-0"
@@ -523,13 +506,15 @@ const Index = ({ isDesktopIframe = false }: IndexProps) => {
 
       {/* Gradient shadow so swipe icons are always visible */}
       <div
-        className="no-print fixed bottom-0 left-0 right-0 h-24 pointer-events-none z-40"
+        className="no-print fixed left-0 right-0 pointer-events-none z-40"
         style={{
+          bottom: 0,
+          height: "calc(10rem + env(safe-area-inset-bottom, 0px))",
           background: "linear-gradient(180deg, transparent 0%, hsl(30 20% 8% / 0.4) 40%, hsl(30 25% 6% / 0.7) 100%)",
         }}
       />
-      {/* Bottom bar - swipe (left), contact (right), same height */}
-      <div className="no-print fixed bottom-5 sm:bottom-6 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 gap-3 pointer-events-none [&>*]:pointer-events-auto">
+      {/* Bottom bar - extra offset on mobile for Safari nav bar; normal on desktop */}
+      <div className="no-print fixed left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 gap-3 pointer-events-none [&>*]:pointer-events-auto bottom-bar-safe">
         <SwipeIndicator
           currentIndex={currentSection}
           totalSections={sectionLabels.length}

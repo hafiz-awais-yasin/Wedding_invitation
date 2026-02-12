@@ -86,6 +86,24 @@
 }
 
 @layer components {
+  /* Extra padding for Safari nav bar + safe area (iPhone/Android) */
+  .pb-safe-bar {
+    padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Bottom bar: extra offset on mobile for Safari nav bar; normal on desktop */
+  .bottom-bar-safe {
+    bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+  }
+  @media (min-width: 768px) {
+    .bottom-bar-safe {
+      bottom: 1.5rem;
+    }
+    .pb-safe-bar {
+      padding-bottom: 3.5rem;
+    }
+  }
+
   .font-arabic {
     font-family: 'Amiri', serif;
   }
