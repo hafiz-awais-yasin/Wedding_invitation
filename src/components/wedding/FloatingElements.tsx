@@ -188,6 +188,52 @@ export const DraggableFlowers = ({ count = 6 }: { count?: number }) => {
   );
 };
 
+/** Subtle background sparkle/firework dots — not big bursts */
+export const BackgroundSparkles = ({ count = 20 }: { count?: number }) => {
+  const sparkles = Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    delay: Math.random() * 6,
+    size: 2 + Math.random() * 3,
+    color: [
+      'hsl(43 72% 52% / 0.6)',
+      'hsl(345 60% 50% / 0.4)',
+      'hsl(50 90% 65% / 0.5)',
+      'hsl(30 80% 60% / 0.4)',
+    ][Math.floor(Math.random() * 4)],
+  }));
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
+      {sparkles.map((s) => (
+        <motion.div
+          key={s.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${s.x}%`,
+            top: `${s.y}%`,
+            width: s.size,
+            height: s.size,
+            backgroundColor: s.color,
+            boxShadow: `0 0 ${s.size * 4}px ${s.color}`,
+          }}
+          animate={{
+            opacity: [0, 0.8, 0],
+            scale: [0.5, 1.5, 0.5],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 3,
+            delay: s.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 export const Fireworks = ({ count = 8 }: { count?: number }) => {
   const sparks = Array.from({ length: count }, (_, i) => ({
     id: i,
@@ -212,7 +258,6 @@ export const Fireworks = ({ count = 8 }: { count?: number }) => {
           className="absolute"
           style={{ left: `${s.x}%`, top: `${s.y}%` }}
         >
-          {/* Burst rays */}
           {Array.from({ length: 6 }, (_, j) => (
             <motion.div
               key={j}
@@ -238,7 +283,6 @@ export const Fireworks = ({ count = 8 }: { count?: number }) => {
               }}
             />
           ))}
-          {/* Center flash */}
           <motion.div
             className="absolute rounded-full"
             style={{
