@@ -7,9 +7,10 @@ import {
   FloatingMarigolds,
   FloatingLanterns,
   GlowingLights,
-  DraggableHearts,
+  DraggableFlowers,
   Candles,
   ConfettiExplosion,
+  Fireworks,
 } from "@/components/wedding/FloatingElements";
 import { IslamicPattern, OrnamentDivider, FloralArch } from "@/components/wedding/IslamicPattern";
 import { SwipeIndicator, SwipeHint } from "@/components/wedding/SwipeIndicator";
@@ -72,8 +73,10 @@ const Index = () => {
           <IslamicPattern className="w-[500px] h-[500px] top-0 left-0" />
           <IslamicPattern className="w-[400px] h-[400px] bottom-0 right-0" />
           <FloatingPetals count={15} />
+          <Fireworks count={10} />
           <GlowingLights count={20} />
           <Candles count={4} />
+          <DraggableFlowers count={5} />
 
           <motion.div className="relative z-30 text-center px-6 max-w-lg" {...sectionAnim}>
             <motion.p
@@ -141,7 +144,7 @@ const Index = () => {
             <SwipeHint />
           </motion.div>
 
-          <BaghiAnimation />
+          
         </section>
 
         {/* ===== MEHNDI ===== */}
@@ -149,7 +152,8 @@ const Index = () => {
           <IslamicPattern className="w-[400px] h-[400px] top-10 right-10" />
           <FloatingMarigolds count={12} />
           <FloatingLanterns count={5} />
-          <DraggableHearts count={4} />
+          <DraggableFlowers count={4} />
+          <Fireworks count={6} />
 
           <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
             <span className="text-5xl mb-4 block">💐</span>
@@ -176,7 +180,7 @@ const Index = () => {
             </motion.p>
           </motion.div>
 
-          <BaghiAnimation />
+          
         </section>
 
         {/* ===== BARAT ===== */}
@@ -185,7 +189,8 @@ const Index = () => {
           <FloatingLanterns count={7} />
           <Candles count={6} />
           <GlowingLights count={18} />
-          <DraggableHearts count={3} />
+          <DraggableFlowers count={4} />
+          <Fireworks count={8} />
 
           <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
             <span className="text-5xl mb-4 block">🕌</span>
@@ -219,7 +224,8 @@ const Index = () => {
           <IslamicPattern className="w-[450px] h-[450px] top-0 right-0" />
           <FloatingPetals count={10} />
           <GlowingLights count={15} />
-          <DraggableHearts count={5} />
+          <DraggableFlowers count={5} />
+          <Fireworks count={8} />
 
           <motion.div className="relative z-30 text-center px-6 max-w-md" {...sectionAnim}>
             <span className="text-5xl mb-4 block">🌙</span>
@@ -267,7 +273,7 @@ const Index = () => {
             </motion.p>
           </motion.div>
 
-          <BaghiAnimation />
+          
         </section>
       </div>
 
