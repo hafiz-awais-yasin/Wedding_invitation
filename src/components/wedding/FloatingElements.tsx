@@ -151,33 +151,115 @@ export const GlowingLights = ({ count = 15 }: { count?: number }) => {
   );
 };
 
-export const DraggableHearts = ({ count = 5 }: { count?: number }) => {
-  const hearts = Array.from({ length: count }, (_, i) => ({
+export const DraggableFlowers = ({ count = 6 }: { count?: number }) => {
+  const flowers = ['🌹', '🌺', '🌷', '🌻', '💐', '🌸'];
+  const items = Array.from({ length: count }, (_, i) => ({
     id: i,
-    x: 15 + Math.random() * 70,
-    y: 20 + Math.random() * 60,
-    size: 18 + Math.random() * 14,
+    x: 10 + Math.random() * 80,
+    y: 15 + Math.random() * 65,
+    size: 22 + Math.random() * 18,
+    emoji: flowers[i % flowers.length],
   }));
 
   return (
     <div className="absolute inset-0 overflow-hidden z-20">
-      {hearts.map((h) => (
+      {items.map((f) => (
         <motion.div
-          key={h.id}
+          key={f.id}
           className="absolute cursor-grab active:cursor-grabbing"
-          style={{ left: `${h.x}%`, top: `${h.y}%` }}
+          style={{ left: `${f.x}%`, top: `${f.y}%` }}
           drag
           dragMomentum={false}
-          whileHover={{ scale: 1.3 }}
+          whileHover={{ scale: 1.4, rotate: 15 }}
           whileTap={{ scale: 0.9 }}
           animate={{
-            y: [0, -10, 0],
+            y: [0, -12, 0],
+            rotate: [0, 5, -5, 0],
           }}
           transition={{
-            y: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: h.id * 0.5 },
+            y: { duration: 3 + f.id * 0.3, repeat: Infinity, ease: "easeInOut" },
+            rotate: { duration: 4, repeat: Infinity, ease: "easeInOut" },
           }}
         >
-          <span style={{ fontSize: h.size }} className="select-none">❤️</span>
+          <span style={{ fontSize: f.size }} className="select-none drop-shadow-lg">{f.emoji}</span>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+export const Fireworks = ({ count = 8 }: { count?: number }) => {
+  const sparks = Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: 10 + Math.random() * 80,
+    y: 10 + Math.random() * 60,
+    delay: Math.random() * 5,
+    size: 3 + Math.random() * 5,
+    color: [
+      'hsl(43 72% 52%)',
+      'hsl(345 60% 50%)',
+      'hsl(30 80% 60%)',
+      'hsl(50 90% 65%)',
+      'hsl(280 50% 60%)',
+    ][Math.floor(Math.random() * 5)],
+  }));
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
+      {sparks.map((s) => (
+        <motion.div
+          key={s.id}
+          className="absolute"
+          style={{ left: `${s.x}%`, top: `${s.y}%` }}
+        >
+          {/* Burst rays */}
+          {Array.from({ length: 6 }, (_, j) => (
+            <motion.div
+              key={j}
+              className="absolute rounded-full"
+              style={{
+                width: s.size,
+                height: s.size,
+                backgroundColor: s.color,
+                boxShadow: `0 0 ${s.size * 3}px ${s.color}, 0 0 ${s.size * 6}px ${s.color}`,
+              }}
+              animate={{
+                x: [0, Math.cos((j * 60 * Math.PI) / 180) * 40],
+                y: [0, Math.sin((j * 60 * Math.PI) / 180) * 40],
+                opacity: [0, 1, 1, 0],
+                scale: [0, 1.5, 1, 0],
+              }}
+              transition={{
+                duration: 2,
+                delay: s.delay + j * 0.05,
+                repeat: Infinity,
+                repeatDelay: 3 + Math.random() * 2,
+                ease: "easeOut",
+              }}
+            />
+          ))}
+          {/* Center flash */}
+          <motion.div
+            className="absolute rounded-full"
+            style={{
+              width: s.size * 2,
+              height: s.size * 2,
+              left: -s.size,
+              top: -s.size,
+              backgroundColor: 'white',
+              boxShadow: `0 0 ${s.size * 4}px ${s.color}`,
+            }}
+            animate={{
+              opacity: [0, 0.9, 0],
+              scale: [0, 1, 0],
+            }}
+            transition={{
+              duration: 0.6,
+              delay: s.delay,
+              repeat: Infinity,
+              repeatDelay: 4.4 + Math.random() * 2,
+            }}
+          />
         </motion.div>
       ))}
     </div>
